@@ -8,7 +8,6 @@ import classNames from "classnames";
 
 const NavBar = () => {
   const currentPath = usePathname();
-  console.log(currentPath);
   const Links = [
     { href: "/", label: "Dashboard" },
     { href: "/issues", label: "Issues" },

@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
     const result = createIssueSchema.safeParse(body);
     if (!result.success) {
-        return NextResponse.json({ error: result.error.errors }, { status: 400 });
+        return NextResponse.json({ error: result.error.format }, { status: 400 });
     }
 
     const newIssue = await prisma.issue.create({
