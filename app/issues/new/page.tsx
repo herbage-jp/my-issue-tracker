@@ -31,6 +31,20 @@ const NewIssuePage = () => {
   const [error, setError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const onSubmit = async (data: IssueForm) => {
+    try {
+      setIsSubmitting(true);
+      console.log(data);
+      await axios.post("/api/issues", data);
+      router.push("/issues");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setError("An unexpected error occurred. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="max-w-xl">
       {error && (
@@ -38,23 +52,7 @@ const NewIssuePage = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setIsSubmitting(true);
-            console.log(data);
-            await axios.post("/api/issues", data);
-            router.push("/issues");
-          } catch (error) {
-            console.error("Error submitting form:", error);
-            setError("An unexpected error occurred. Please try again later.");
-            // You could add error handling UI here
-          } finally {
-            setIsSubmitting(false);
-          }
-        })}
-        className="space-y-3"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <TextField.Root placeholder="Title" {...register("title")} />
         {<ErrorMessage>{errors.title?.message}</ErrorMessage>}
 
