@@ -5,13 +5,12 @@ import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
 
 export interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 const IssueDetailPage = async ({ params }: Props) => {
-  // In Next.js 15, we need to await the params object before using its properties
-  const resolvedParams = await params;
-  const id = resolvedParams.id;
+  // In Next.js 15, params is a Promise that needs to be awaited
+  const { id } = await params;
 
   // Check if ID is valid - note that params.id is a string, not a number
   const issueId = parseInt(id);

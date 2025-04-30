@@ -2,10 +2,10 @@ import { issueSchema } from "@/app/validationSchemas";
 import { prisma } from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-export type paramsType = Promise<{ id: string }>;
+
 export async function PATCH(
     request: NextRequest,
-    props: { params: paramsType }) {
+    props: { params: Promise<{ id: string }> }) {
 
     const body = await request.json();
     const { id } = await props.params;
