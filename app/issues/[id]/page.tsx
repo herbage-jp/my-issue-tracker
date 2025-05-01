@@ -7,6 +7,7 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import { AuthOptions, getServerSession } from "next-auth";
 import authOptions from "@/app/auth/AuthOption";
 import AssigneeSelect from "./AssigneeSelect";
+import toast, { Toaster } from "react-hot-toast";
 
 export interface Props {
   params: Promise<{ id: string }>;
