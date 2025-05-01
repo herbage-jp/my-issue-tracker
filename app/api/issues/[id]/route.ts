@@ -37,7 +37,7 @@ export async function PATCH(
 
     const issue = await prisma.issue.findUnique({
         where: {
-            id: parseInt(id),
+            id: parseInt(id)
         },
     });
 
