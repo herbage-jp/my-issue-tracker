@@ -1,5 +1,5 @@
 import authOptions from "@/app/auth/AuthOption";
-import { issueSchema } from "@/app/validationSchemas";
+import { issueSchema, patchIssueSchema } from "@/app/validationSchemas";
 import { prisma } from "@/prisma/client";
 import { getServerSession, AuthOptions } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -16,10 +16,23 @@ export async function PATCH(
 
     const body = await request.json();
     const { id } = await props.params;
-    const result = issueSchema.safeParse(body);
+    const result = patchIssueSchema.safeParse(body);
 
     if (!result.success) {
         return NextResponse.json({ error: result.error.format }, { status: 400 });
+    }
+
+    const { title, description, assignedToUserId } = body;
+    if (assignedToUserId) {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: assignedToUserId,
+            },
+        });
+
+        if (!user) {
+            return NextResponse.json({ error: "User not found" }, { status: 400 });
+        }
     }
 
     const issue = await prisma.issue.findUnique({
@@ -37,8 +50,9 @@ export async function PATCH(
             id: issue.id,
         },
         data: {
-            title: body.title,
-            description: body.description,
+            title,
+            description,
+            assignedToUserId,
         }
     });
 
