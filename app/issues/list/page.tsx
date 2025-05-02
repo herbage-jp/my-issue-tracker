@@ -6,11 +6,12 @@ import { Issue, Status } from "@/app/generated/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
+import Pagination from "@/app/components/Pagination";
 
 export const dynamic = "force-dynamic";
 
 interface PageProps {
-  searchParams: { status?: string; orderBy?: string };
+  searchParams: { status?: string; orderBy?: string; page?: string };
 }
 
 const IssuesPage = async ({ searchParams }: PageProps) => {
@@ -27,6 +28,8 @@ const IssuesPage = async ({ searchParams }: PageProps) => {
   const resolvedParams = await searchParams;
   const status = resolvedParams?.status;
   const orderBy = resolvedParams?.orderBy;
+  const page = parseInt(resolvedParams?.page || "1");
+  const pageSize = 10;
 
   // validate status
   const resolvedStatus = Object.values(Status).includes(status as Status)
@@ -40,20 +43,28 @@ const IssuesPage = async ({ searchParams }: PageProps) => {
     ? (orderBy as keyof Issue)
     : "createdAt";
 
+  const whereClause = {
+    status: resolvedStatus as Status,
+  };
+
   const issues = await prisma.issue.findMany({
-    where: {
-      status: resolvedStatus as Status,
-    },
+    where: whereClause,
     orderBy: {
       [resolvedOrderBy]: "asc",
     },
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const totalIssues = await prisma.issue.count({
+    where: whereClause,
   });
 
   return (
     <div>
       <IssueActions />
 
-      <Table.Root variant="surface">
+      <Table.Root variant="surface" className="mb-5">
         <Table.Header>
           <Table.Row>
             {columns.map((column) => (
@@ -94,6 +105,11 @@ const IssuesPage = async ({ searchParams }: PageProps) => {
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        itemCount={totalIssues}
+        pageSize={pageSize}
+        currentPage={page}
+      />
     </div>
   );
 };
