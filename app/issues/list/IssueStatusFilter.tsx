@@ -17,10 +17,14 @@ const IssueStatusFilter = () => {
 
   return (
     <Select.Root
-      defaultValue={searchParams.get("status") || ""}
+      defaultValue={searchParams.get("status") || "ALL"}
       onValueChange={(status) => {
         const params = new URLSearchParams(searchParams);
-        params.set("status", status === "ALL" ? "" : status);
+        if (status === "ALL") {
+          params.delete("status");
+        } else {
+          params.set("status", status);
+        }
         if (searchParams.has("orderBy")) {
           params.set("orderBy", searchParams.get("orderBy")!);
         }
