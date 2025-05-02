@@ -34,10 +34,11 @@ const IssuesPage = async ({ searchParams }: PageProps) => {
     : undefined;
 
   // validate orderBy - ensure it's a valid key of Issue
-  const validOrderByKeys: (keyof Issue)[] = ['title', 'status', 'createdAt'];
-  const resolvedOrderBy: keyof Issue = validOrderByKeys.includes(orderBy as keyof Issue) 
-    ? (orderBy as keyof Issue) 
-    : 'createdAt';
+  const resolvedOrderBy: keyof Issue = columns.some(
+    (column) => column.value === (orderBy as keyof Issue)
+  )
+    ? (orderBy as keyof Issue)
+    : "createdAt";
 
   const issues = await prisma.issue.findMany({
     where: {
@@ -56,7 +57,10 @@ const IssuesPage = async ({ searchParams }: PageProps) => {
         <Table.Header>
           <Table.Row>
             {columns.map((column) => (
-              <Table.ColumnHeaderCell key={column.value} className={column.className}>
+              <Table.ColumnHeaderCell
+                key={column.value}
+                className={column.className}
+              >
                 <Link
                   href={{
                     query: { ...resolvedParams, orderBy: column.value },
