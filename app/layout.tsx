@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import Script from "next/script";
+import "./critical.css"; // Load critical CSS first
 import NavBar from "./NavBar";
-import "@radix-ui/themes/styles.css";
 import { Container, Theme } from "@radix-ui/themes";
+// Import non-critical CSS after critical CSS
+import "./globals.css";
+import "@radix-ui/themes/styles.css";
 import AuthProvider from "./auth/Provider";
 import QueryClientProvider from "./query-client";
 
