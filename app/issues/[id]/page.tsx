@@ -7,7 +7,6 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import { AuthOptions, getServerSession } from "next-auth";
 import authOptions from "@/app/auth/AuthOption";
 import AssigneeSelect from "./AssigneeSelect";
-import toast, { Toaster } from "react-hot-toast";
 
 export interface Props {
   params: Promise<{ id: string }>;
@@ -48,5 +47,19 @@ const IssueDetailPage = async ({ params }: Props) => {
     </Grid>
   );
 };
+
+export async function generateMetadata({ params }: Props) {
+  const { id } = await params;
+  const issue = await prisma.issue.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  return {
+    title: issue?.title,
+    description: "Details of issue " + issue?.title,
+  };
+}
 
 export default IssueDetailPage;
