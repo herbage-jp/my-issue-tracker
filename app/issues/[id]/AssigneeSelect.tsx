@@ -7,18 +7,16 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
-  const { data: users, error, isLoading } = useUsers();
+  const { data: users, isLoading } = useUsers();
 
   if (isLoading) return <Skeleton />;
-
-  if (error) return null;
 
   const onSelectUserChanged = (value: string) => {
     axios
       .patch(`/api/issues/${issue.id}`, {
         assignedToUserId: value === "null" ? null : value,
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Failed to assign issue");
       });
   };

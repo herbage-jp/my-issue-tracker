@@ -3,21 +3,21 @@ import IssueActions from "./IssueActions";
 import { Issue, Status } from "@/app/generated/prisma";
 import Pagination from "@/app/components/Pagination";
 import IssueTable, { columns } from "./IssueTable";
-import { IssueQuery } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
 interface PageProps {
-  searchParams: IssueQuery;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 const IssuesPage = async ({ searchParams }: PageProps) => {
   const resolvedParams = await searchParams;
   const status = resolvedParams?.status;
   const orderBy = resolvedParams?.orderBy;
-  const page = parseInt(resolvedParams?.page || "1");
+  const pageValue = resolvedParams?.page;
+  const page = parseInt(Array.isArray(pageValue) ? pageValue[0] : (pageValue || "1"));
   const pageSize = 10;
 
   // validate status
