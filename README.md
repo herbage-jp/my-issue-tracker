@@ -1,8 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Issue Tracker Application
+
+This is an Issue Tracker application built with Next.js 15, based on the [Next.js Projects: Issue Tracker](https://codewithmosh.com/p/nextjs-projects-issue-tracker) course by Mosh Hamedani, with some key modifications.
+
+## Project Overview
+
+This application allows users to create, track, and manage issues in a project management context. It demonstrates the use of modern web development practices with Next.js 15 and integrates with PostgreSQL for data persistence.
+
+## Key Features
+
+- Issue creation and management
+- Issue filtering and sorting
+- User authentication and authorization
+- Dashboard with issue statistics
+- Responsive design for all devices
+
+## Technology Stack
+
+- **Frontend**: Next.js 15 (App Router), React, TypeScript
+- **Styling**: Tailwind CSS
+- **Database**: PostgreSQL (modified from the original MySQL in the course)
+- **ORM**: Prisma
+- **Authentication**: NextAuth.js with Google OAuth provider
+
+## Key Modifications from Original Course
+
+1. **Next.js Version**: Using Next.js 15 instead of Next.js 13 used in the original course
+2. **Database**: Using PostgreSQL instead of MySQL
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (version 18.17 or later)
+- PostgreSQL database
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+3. Set up your environment variables in `.env` file:
+
+```
+DATABASE_URL="postgresql://username:password@localhost:5432/issue_tracker"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key"
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+```
+
+4. For Google OAuth authentication:
+   - Go to the [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select an existing one
+   - Navigate to "APIs & Services" > "Credentials"
+   - Create an OAuth client ID (Application type: Web application)
+   - Add authorized redirect URIs: `http://localhost:3000/api/auth/callback/google`
+   - Copy the generated Client ID and Client Secret to your `.env` file
+
+5. Run Prisma migrations:
+
+```bash
+npx prisma migrate dev
+```
+
+6. Start the development server:
 
 ```bash
 npm run dev
@@ -10,27 +79,34 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+7. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/app` - Next.js App Router pages and components
+- `/prisma` - Prisma schema and migrations
+- `/public` - Static assets
+- `/components` - Reusable UI components
 
-## Learn More
+## Testing
 
-To learn more about Next.js, take a look at the following resources:
+Run the tests with:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm test -- -v -s
+# or
+yarn test -- -v -s
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+This application can be deployed on Vercel or any other platform that supports Next.js applications.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Acknowledgements
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Mosh Hamedani](https://codewithmosh.com) for the original course and project structure
+- [Next.js](https://nextjs.org) for the amazing React framework
+- [Prisma](https://prisma.io) for the database ORM
+- [Tailwind CSS](https://tailwindcss.com) for the utility-first CSS framework
