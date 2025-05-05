@@ -1,13 +1,9 @@
 import { prisma } from "@/prisma/client";
-import { Box, Flex, Grid } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
-import EditIssueButton from "./EditIssueButton";
-import IssueDetails from "./IssueDetails";
-import DeleteIssueButton from "./DeleteIssueButton";
 import { AuthOptions, getServerSession } from "next-auth";
 import authOptions from "@/app/auth/AuthOption";
-import AssigneeSelect from "./AssigneeSelect";
 import { cache } from "react";
+import IssueDetailClient from "./IssueDetailClient";
 
 export interface Props {
   params: Promise<{ id: string }>;
@@ -35,22 +31,7 @@ const IssueDetailPage = async ({ params }: Props) => {
 
   if (!issue) notFound();
 
-  return (
-    <Grid columns={{ initial: "1", sm: "5" }} gap="4">
-      <Box className="md:col-span-4">
-        <IssueDetails issue={issue} />
-      </Box>
-      <Box>
-        {session && (
-          <Flex direction="column" gap="4">
-            <AssigneeSelect issue={issue} />
-            <EditIssueButton issueId={issue.id} />
-            <DeleteIssueButton issueId={issue.id} />
-          </Flex>
-        )}
-      </Box>
-    </Grid>
-  );
+  return <IssueDetailClient initialIssue={issue} showEditOptions={!!session} />;
 };
 
 export async function generateMetadata({ params }: Props) {
