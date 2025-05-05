@@ -3,9 +3,9 @@
 import Link from "next/link";
 import React from "react";
 import { AiFillBug } from "react-icons/ai";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import classNames from "classnames";
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Avatar, Container, DropdownMenu, Flex, Text } from "@radix-ui/themes";
 import Skeleton from "@/app/components/Skeleton";
 
@@ -55,14 +55,19 @@ const NavLinks = () => {
 
 const AuthStatus = () => {
   const { status, data: session } = useSession();
+  const pathname = usePathname();
+  const router = useRouter();
 
   if (status === "loading") return <Skeleton width="3rem" />;
 
   if (status === "unauthenticated") {
     return (
-      <Link href="/api/auth/signin" className="nav-links">
+      <button 
+        onClick={() => signIn("google", { callbackUrl: pathname })} 
+        className="nav-links bg-transparent border-0 cursor-pointer p-0"
+      >
         Sign in
-      </Link>
+      </button>
     );
   }
 
@@ -83,7 +88,12 @@ const AuthStatus = () => {
           <Text size="2"> {session!.user!.email}</Text>
         </DropdownMenu.Label>
         <DropdownMenu.Item>
-          <Link href="/api/auth/signout">Sign out</Link>
+          <button 
+            onClick={() => signOut({ callbackUrl: pathname })} 
+            className="bg-transparent border-0 cursor-pointer p-0 w-full text-left"
+          >
+            Sign out
+          </button>
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
