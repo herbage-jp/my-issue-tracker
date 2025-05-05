@@ -16,6 +16,7 @@ const IssuesPage = async ({ searchParams }: PageProps) => {
   const resolvedParams = await searchParams;
   const status = resolvedParams?.status;
   const orderBy = resolvedParams?.orderBy;
+  const sortOrder = resolvedParams?.sortOrder;
   const pageValue = resolvedParams?.page;
   const page = parseInt(Array.isArray(pageValue) ? pageValue[0] : (pageValue || "1"));
   const pageSize = 10;
@@ -31,6 +32,9 @@ const IssuesPage = async ({ searchParams }: PageProps) => {
   )
     ? (orderBy as keyof Issue)
     : "createdAt";
+    
+  // validate sortOrder - ensure it's either asc or desc
+  const resolvedSortOrder = sortOrder === "desc" ? "desc" : "asc";
 
   const whereClause = {
     status: resolvedStatus as Status,
@@ -39,7 +43,7 @@ const IssuesPage = async ({ searchParams }: PageProps) => {
   const issues = await prisma.issue.findMany({
     where: whereClause,
     orderBy: {
-      [resolvedOrderBy]: "asc",
+      [resolvedOrderBy]: resolvedSortOrder,
     },
     skip: (page - 1) * pageSize,
     take: pageSize,
