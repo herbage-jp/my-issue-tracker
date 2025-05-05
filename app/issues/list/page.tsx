@@ -18,8 +18,20 @@ const IssuesPage = async ({ searchParams }: PageProps) => {
   const orderBy = resolvedParams?.orderBy;
   const sortOrder = resolvedParams?.sortOrder;
   const pageValue = resolvedParams?.page;
+  const pageSizeValue = resolvedParams?.pageSize;
+  
   const page = parseInt(Array.isArray(pageValue) ? pageValue[0] : (pageValue || "1"));
-  const pageSize = 10;
+  
+  // Parse page size from URL or use default
+  const pageSizeOptions = [10, 25, 50, 100];
+  let pageSize = 10; // Default
+  
+  if (pageSizeValue) {
+    const parsedSize = parseInt(Array.isArray(pageSizeValue) ? pageSizeValue[0] : pageSizeValue);
+    if (!isNaN(parsedSize) && pageSizeOptions.includes(parsedSize)) {
+      pageSize = parsedSize;
+    }
+  }
 
   // validate status
   const resolvedStatus = Object.values(Status).includes(status as Status)
@@ -64,6 +76,7 @@ const IssuesPage = async ({ searchParams }: PageProps) => {
         itemCount={totalIssues}
         pageSize={pageSize}
         currentPage={page}
+        pageSizeOptions={[10, 25, 50, 100]}
       />
     </Flex>
   );
