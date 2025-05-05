@@ -9,11 +9,17 @@ interface Props {
   closed: number;
 }
 
-const IssueChart = ({ open, inProgress, closed }: Props) => {
+interface LabelProps {
+  openLabel: string;
+  inProgressLabel: string;
+  closedLabel: string;
+}
+
+const IssueChart = ({ open, inProgress, closed, openLabel, inProgressLabel, closedLabel }: Props & LabelProps) => {
   const data = [
-    { label: "Open", value: open },
-    { label: "In Progress", value: inProgress },
-    { label: "Closed", value: closed },
+    { label: openLabel, value: open },
+    { label: inProgressLabel, value: inProgress },
+    { label: closedLabel, value: closed },
   ];
   return (
     <Card>

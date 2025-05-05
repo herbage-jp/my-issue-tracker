@@ -6,5 +6,18 @@
     "signOut": "登出"
   },
   "title": "問題追蹤器 - 儀表板",
+  "summary": {
+    "open": "未解決問題",
+    "inProgress": "處理中問題",
+    "closed": "已解決問題"
+  },
+  "chart": {
+    "open": "未解決",
+    "inProgress": "處理中",
+    "closed": "已解決"
+  },
+  "latest": {
+    "heading": "最新問題"
+  },
   "description": "檢視專案問題摘要"
 }

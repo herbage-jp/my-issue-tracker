@@ -29,14 +29,20 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           open={openIssuesCount}
           inProgress={inProgressIssuesCount}
           closed={closedIssuesCount}
+          openLabel={t('summary.open')}
+          inProgressLabel={t('summary.inProgress')}
+          closedLabel={t('summary.closed')}
         />
         <IssueChart
           open={openIssuesCount}
           inProgress={inProgressIssuesCount}
           closed={closedIssuesCount}
+          openLabel={t('chart.open')}
+          inProgressLabel={t('chart.inProgress')}
+          closedLabel={t('chart.closed')}
         />
       </Flex>
-      <LatestIssues />
+      <LatestIssues heading={t('latest.heading')} />
     </Grid>
   );
 }

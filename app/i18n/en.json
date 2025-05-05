@@ -6,5 +6,18 @@
     "signOut": "Sign out"
   },
   "title": "Issue Tracker - Dashboard",
+  "summary": {
+    "open": "Open Issues",
+    "inProgress": "In Progress Issues",
+    "closed": "Closed Issues"
+  },
+  "chart": {
+    "open": "Open",
+    "inProgress": "In Progress",
+    "closed": "Closed"
+  },
+  "latest": {
+    "heading": "Latest Issues"
+  },
   "description": "View a summary of project issues"
 }

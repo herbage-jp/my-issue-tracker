@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 
 export type Translations = Record<string, string | Record<string, string>>;

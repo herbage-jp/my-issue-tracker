@@ -9,19 +9,21 @@ interface Props {
   closed: number;
 }
 
-const IssueSammary = ({ open, inProgress, closed }: Props) => {
+interface LabelProps {
+  openLabel: string;
+  inProgressLabel: string;
+  closedLabel: string;
+}
+
+const IssueSammary = ({ open, inProgress, closed, openLabel, inProgressLabel, closedLabel }: Props & LabelProps) => {
   const containers: {
     label: string;
     value: number;
     status: Status;
   }[] = [
-    { label: "Open Issues", value: open, status: Status.OPEN },
-    {
-      label: "In Progress Issues",
-      value: inProgress,
-      status: Status.IN_PROGRESS,
-    },
-    { label: "Closed Issues", value: closed, status: Status.CLOSED },
+    { label: openLabel, value: open, status: Status.OPEN },
+    { label: inProgressLabel, value: inProgress, status: Status.IN_PROGRESS },
+    { label: closedLabel, value: closed, status: Status.CLOSED },
   ];
 
   return (
