@@ -8,6 +8,7 @@ import classNames from "classnames";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Avatar, Container, DropdownMenu, Flex, Text } from "@radix-ui/themes";
 import Skeleton from "@/app/components/Skeleton";
+import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 
 const NavBar = () => {
   return (
@@ -20,7 +21,10 @@ const NavBar = () => {
             </Link>
             <NavLinks />
           </Flex>
-          <AuthStatus />
+          <Flex align="center" gap="3">
+            <LanguageSwitcher />
+            <AuthStatus />
+          </Flex>
         </Flex>
       </Container>
     </nav>
