@@ -1,4 +1,10 @@
 {
+  "navbar": {
+    "dashboard": "Dashboard",
+    "issues": "Issues",
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  },
   "title": "Issue Tracker - Dashboard",
   "description": "View a summary of project issues"
 }

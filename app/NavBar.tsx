@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import React from "react";
-import { AiFillBug } from "react-icons/ai";
 import { usePathname, useRouter } from "next/navigation";
+
+import { useClientTranslation } from "@/app/i18n/useClientTranslation";
+
+import { AiFillBug } from "react-icons/ai";
 import classNames from "classnames";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Avatar, Container, DropdownMenu, Flex, Text } from "@radix-ui/themes";
@@ -33,10 +36,11 @@ const NavBar = () => {
 
 const NavLinks = () => {
   const currentPath = usePathname();
+  const { t } = useClientTranslation();
 
   const Links = [
-    { href: "/", label: "Dashboard" },
-    { href: "/issues/list", label: "Issues" },
+    { href: "/", label: t("navbar.dashboard") },
+    { href: "/issues/list", label: t("navbar.issues") },
   ];
   return (
     <ul className="flex space-x-6">
@@ -61,6 +65,7 @@ const AuthStatus = () => {
   const { status, data: session } = useSession();
   const pathname = usePathname();
   const router = useRouter();
+  const { t } = useClientTranslation();
 
   if (status === "loading") return <Skeleton width="3rem" />;
 
@@ -70,7 +75,7 @@ const AuthStatus = () => {
         onClick={() => signIn("google", { callbackUrl: pathname })} 
         className="nav-links bg-transparent border-0 cursor-pointer p-0"
       >
-        Sign in
+        {t("navbar.signIn")}
       </button>
     );
   }
@@ -96,7 +101,7 @@ const AuthStatus = () => {
             onClick={() => signOut({ callbackUrl: pathname })} 
             className="bg-transparent border-0 cursor-pointer p-0 w-full text-left"
           >
-            Sign out
+            {t("navbar.signOut")}
           </button>
         </DropdownMenu.Item>
       </DropdownMenu.Content>

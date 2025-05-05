@@ -1,4 +1,10 @@
 {
+  "navbar": {
+    "dashboard": "儀表板",
+    "issues": "問題",
+    "signIn": "登入",
+    "signOut": "登出"
+  },
   "title": "問題追蹤器 - 儀表板",
   "description": "檢視專案問題摘要"
 }
